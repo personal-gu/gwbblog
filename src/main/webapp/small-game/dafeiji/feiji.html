@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{padding:10px;}
+        #beijing,#feiji{position:absolute;}
+        #feiji{top:0;left:0;z-index:2;}
+        #beijing{
+            background:url(beijing.jpg);z-index:1;
+            -webkit-animation-name: flymove;
+            -webkit-animation-duration: 10s;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-iteration-count: 20000;
+            -moz-animation-name: flymove;
+            -moz-animation-duration: 10s;
+            -moz-animation-timing-function: linear;
+            -moz-animation-iteration-count: 20000;
+            -ms-animation-name: flymove;
+            -ms-animation-duration: 10s;
+            -ms-animation-timing-function: linear;
+            -ms-animation-iteration-count: 20000;
+        }
+        #feiji{top:0;left:0;z-index:2;}
+        /*让背景星空动起来*/
+        @-webkit-keyframes flymove{
+            0%{background-position:0 0;}
+            100%{background-position:0 800px;}
+        }
+        @-moz-keyframes flymove{
+            0%{background-position:0 0;}
+            100%{background-position:0 800px;}
+        }
+        @-ms-keyframes flymove{
+            0%{background-position:0 0;}
+            100%{background-position:0 800px;}
+        }
+    </style>
+</head>
+<body onload="">
+<div style="position:relative;">
+    <canvas id="beijing" width="300" height="400">您的浏览器不支持canvas。</canvas>
+    <canvas id="feiji" width="300" height="400">您的浏览器不支持canvas。</canvas>
+</div>
+<script>
+    var fjmap=document.querySelector("#feiji").getContext("2d");
+    (function(){
+        var jpg={};//存储图片
+        var loaded=0;
+        var enemys={};//存储敌人
+        var bullets={};
+        function load(pic,callback){
+            var img=new Image();
+            img.src=pic;
+            img.onload=function(){
+                loaded++;
+                jpg[pic]=img;
+                callback();
+            }
+        }
+        load("self.png",init);
+        load("enemy.png",init);
+        //初始化完成之后的callback
+        function init(){
+            if(loaded==2){//图片等于2，资源加载完成了
+                //第一步：创建玩家
+                var myfig=new fighter();
+                //第二步：随机生成N敌人出来
+                setInterval(function(){
+                    var n=Math.random();
+                    enemys[n]=new enemy();
+                    enemys[n].name=n;
+                },500);
+                //第三步：发射子弹
+                setInterval(function(){
+                    var n=Math.random();
+                    bullets[n]=new bullet(myfig.x+20,myfig.y-10);
+                    bullets[n].name=n;
+
+                },200);
+            }
+            else{
+                //这里可以做一些loading之类的事情
+            }
+
+        }
+
+        //我方战机
+        function fighter(){
+            this.x = 130;
+            this.y = 350;
+            this.w=jpg["self.png"].width;
+            this.h=jpg["self.png"].height;
+            var rs=this;
+            //根据上面的位置往画布上绘制
+            fjmap.drawImage(jpg["self.png"],this.x,this.y);
+            window.addEventListener("keydown",function(e){
+                //飞机只能左右移动
+                if(e.keyCode==37){
+                    //向左移动
+                    rs.left();
+                }else{
+                    //除了向左全是向右
+                    rs.right();
+                }
+            })
+        }
+        fighter.prototype.move=function(x){
+            //清除原先画的
+            fjmap.clearRect(this.x,this.y,this.w,this.y);
+            //重新画
+            fjmap.drawImage(jpg["self.png"],this.x+=x,this.y)
+        }
+        fighter.prototype.left=function(){
+            this.move(-4);
+        }
+        fighter.prototype.right=function(){
+            this.move(4);
+        }
+        //敌人
+        function enemy(){
+            this.w=jpg["enemy.png"].width;
+            this.h=jpg["enemy.png"].height;
+            this.x=parseInt(Math.random()*(300-this.w));//随机敌人出现的位置
+            this.y=0;
+            var rs=this;
+            //显示敌人
+            fjmap.drawImage(jpg["enemy.png"],this.x,this.y);
+            //让敌机可以下落
+            this.timer=setInterval(function(){
+                if(rs.y>400){
+                    //停止
+                }
+                rs.clear();
+                fjmap.drawImage(jpg["enemy.png"],rs.x,rs.y+=3);
+            },20)
+        }
+        enemy.prototype.clear=function(){
+            fjmap.clearRect(this.x,this.y,this.w,this.h);
+        }
+        //让敌机停止
+        enemy.prototype.stop=function(){
+           //结束定时器
+            clearInterval(this.timer);
+        }
+
+        //子弹
+        function bullet(x,y){
+            this.x=x;
+            this.y=y;
+            var rs=this;
+            this.timer=setInterval(function(){
+                if(rs.y<0){
+                    //停止
+                    rs.stop();
+                    return;
+                }
+                rs.fly();
+            },100);
+            fjmap.fillStyle="#0000ff";
+            fjmap.fillRect(x,y,2,4);
+        }
+        bullet.prototype.stop=function(){
+            //清除定时器
+            clearInterval(this.timer);
+        }
+        bullet.prototype.fly=function(){
+            fjmap.clearRect(this.x,this.y,2,4);//擦除旧子弹
+            fjmap.fillRect(this.x,this.y-=50,2,4);//绘制新子弹
+        }
+        bullet.prototype.check=function(){
+            var x1=this.x; //子弹的
+            var y1=this.y;
+            var w1= 2,h1=4;
+            for(var em in enemys){
+                var e=enemys[em];
+                if(!e) continue;
+                var x2= e.x,y2= e.y,w2= e.w,h2= e.h;//取到敌人的x y  w h
+                if(x1+w1>x2 && x1<x2+w2 && y1+h1>y2 && y1< y2+h2){
+                    //调用敌机身上的清除
+                    enemys[e.name].clear();
+                    enemys[e.name].stop();
+                }
+            }
+
+
+        }
+
+
+
+    })();
+
+
+</script>
+</body>
+</html>

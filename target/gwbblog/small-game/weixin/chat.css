@@ -1,0 +1,60 @@
+body{
+    background-image: url("img/bg.jpg");
+    width: 100%;
+}
+.main{
+    width: 90%;
+    margin: 10px auto;
+}
+.box{
+    float: left;
+    margin: 20px 120px;
+}
+.top{
+    width: 310px;
+    padding: 10px 20px;
+    background-color: beige;
+    font-size: 18px;
+    color: aqua;
+    font-weight: bold;
+}
+.content{
+    background-color: white;
+}
+select{
+    border:2px solid #ccc;
+    background-color: white;
+    width: 350px;
+    height: 470px;
+    padding: 10px;
+}
+.send{
+    width: 310px;
+    background-color: cadetblue;
+    padding: 10px 20px;
+}
+.sendtext{
+    height: 25px;
+    width: 220px;
+    font-size: 15px;
+}
+.btn{
+    width: 65px;
+    height: 30px;
+    float: right;
+    font-size: 18px;
+    background-color: gold;
+    color: white;
+    text-align: center;
+}
+option{
+    font-size: 15px;
+    height: auto;
+    padding: 10px;
+    margin: 10px;
+    background-color: aquamarine;
+    margin-left: 158px;
+    margin-top: 10px;
+    max-width: 310px;
+    margin-bottom: 10px;
+}

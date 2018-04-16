@@ -1,0 +1,30 @@
+/*留言*/
+
+/*背景重置*/
+body { background: url(../images/about/bg_about.jpg) repeat !important;}
+
+footer{width:930px!important;}
+
+#say_contain{width: 930px;height: auto;margin: 0 auto;}
+
+/*位置*/
+.nh_learn {
+    line-height: 31px;
+    height: 31px;
+    font-size: 14px;
+    border-bottom: #333 2px solid;
+    color: #171717;
+}
+.nh_learn span {
+    float: right;
+    font-size: 12px;
+    color: #666;
+    font-weight: normal
+}
+.nh_learn span a {
+    color: #666;
+    margin: 0 5px
+}
+.nh_learn span a:hover {
+    color: #000
+}

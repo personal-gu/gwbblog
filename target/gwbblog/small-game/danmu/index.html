@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="boxDom" id="boxDom">
+    <div class="idDom" id="idDom">
+        <div class="content">
+            <p class="title">说点什么：</p>
+            <input type="text" class="text" id="text" />
+            <button type="button" class="btn" id="btn">发射</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../js/jquery-3.1.0.min.js"></script>
+<script>
+    $(function(){
+        var boxdom=$("#boxDom");
+        var top,right;
+        var pagewidth=parseInt($(document).width());
+        var pageheight=parseInt($(document).height());
+
+
+        //点击按钮
+        $("#btn").bind("click",auto);//给按钮绑定方法
+        //按下回车
+        document.onkeydown= function () {
+            if(event.keyCode==13){
+                auto();
+
+            }
+        }
+
+        function auto(){
+            //1.获取输入内容
+            var str=$("#text").val();
+            //2.生成一个元素
+            var crespan=$("<span class='string'></span>");
+            //给生成的元素进行赋值
+            crespan.text(str);
+            //为了页面显示友好，清空刚刚输入的内容
+            $("#text").val("")
+
+            //是否需要指定位置?生成元素的位置要是一个随机的位置
+            top=Math.floor(Math.random()*pageheight);
+            crespan.css({"top":top,"right":-400,"color":getRandomColor()});
+            //2.1生成后就能显示在页面上面么？
+            boxdom.append(crespan);
+            //3.设置元素的动画效果 自定义动画的方法：animate（css样式值、时间、执行万动画的调用的方法）
+            //页面上有N个span，你到底想让谁动起来。让最后一个动起来
+            var spandom=$("#boxDom>span:last-child");//找到最后一个span
+            spandom.animate({"right":pagewidth+300},10000, function () {
+                //4.移除元素
+                $(this).remove();
+            })
+        }
+
+        //定义一个随机生成颜色的方法
+        function getRandomColor(){
+            var color="";
+            var arr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+            for(var i=0;i<6;i++){
+                //把循环出来的字符进行拼接
+                color+=arr[Math.floor(Math.random()*15)];//随机生成一个数组下标
+            }
+            return "#"+color;
+        }
+    })
+</script>
+</html>
