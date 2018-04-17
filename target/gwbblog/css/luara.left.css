@@ -1,8 +1,0 @@
-/**
- * Created by ggg on 2018/3/22.
- */
-/*创建轮播实例*/
-.luara-left{position:relative;padding:0;overflow: hidden;}
-.luara-left ul{position: relative;padding: inherit;margin: 0;}
-.luara-left ul li{float: left;padding: inherit;margin: inherit;list-style: none;}
-.luara-left ul li img{width: inherit;height: inherit;}
