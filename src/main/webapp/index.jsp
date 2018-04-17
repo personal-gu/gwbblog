@@ -24,13 +24,13 @@
         <a href="/"><img src="images/logo_end.png"></a>
     </div>
     <div class="top_nav" data-scroll-reveal="enter bottom over 1s after 0.5s">
-        <a href="./index.jsp"><span>首页</span><span class="en">Home</span></a>
-        <a href="./About.jsp"><span>关于我</span><span class="en">About</span></a>
-        <a href="./life.jsp"><span>碎碎念</span><span class="en">Life</span></a>
-        <a href="./photo.jsp"><span>我的相册</span><span class="en">Photo</span></a>
-        <a href="./learn.jsp"><span>个人日志</span><span class="en">Learn</span></a>
-        <a href="./relax.jsp"><span>休闲一刻</span><span class="en">Relax</span></a>
-        <a href="./say.jsp"><span>留言</span><span class="en">Message</span></a>
+        <a href="javascript:none"><span>首页</span><span class="en">Home</span></a>
+        <a href="./About.jsp" target="_black" ><span>关于我</span><span class="en">About</span></a>
+        <a href="./life.jsp" target="_black"><span>碎碎念</span><span class="en">Life</span></a>
+        <a href="./photo.jsp" target="_black"><span>我的相册</span><span class="en">Photo</span></a>
+        <a href="./learn.jsp" target="_black"><span>个人日志</span><span class="en">Learn</span></a>
+        <a href="./relax.jsp" target="_black"><span>休闲一刻</span><span class="en">Relax</span></a>
+        <a href="./say.jsp" target="_black"><span>留言</span><span class="en">Message</span></a>
     </div>
 </header>
 
@@ -174,11 +174,22 @@
         var x_height=$(this).scrollTop();
         console.log(x_height);
         if(x_height==300){
-            $("jsp").animate({scrollTop: $("article").offset().top});
+            $("html").animate({scrollTop: $("article").offset().top});
         }
-    })
+    });
 
+    /*---添加背景音乐-----*/
+    $(document).ready(function(){
+        $("body").append("<audio src='./images/video/范玮琪%20-%20最初的梦想.mp3' autoplay controls='controls'></audio>");
+        $("audio").css({"position":"fixed","bottom":"10px","right":"10px","opacity":"0.6","width":"65px","height":"30px"})
+    });
 
+    $(function(){
+    <!--调用Luara示例——定义轮播框图宽高 -->
+    $("aside").luara({
+    width:"550",height:"354",interval:4500,selected:"seleted",deriction:"left"
+    });
+    });
 </script>
 <script src="js/start_Luara.js"></script>
 <script src="js/start_scroll.js"></script>
