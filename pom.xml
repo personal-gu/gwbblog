@@ -161,6 +161,6 @@
         </plugins>
     </build>
   <properties>  
-        <springVersion>4.2.3.RELEASE</springVersion>  
+        <springVersion>4.3.21.RELEASE</springVersion>  
   </properties> 
 </project>
