@@ -1,34 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
-        sh '''Jenkinsfile (Declarative Pipeline)
-pipeline {
-    agent {
-        label \'master\'
-    }
-
-    stages {
-        stage(\'Build\') {
-            steps {
-                echo \'Building..\'
-            }
+        sh '''node(\'master\'){
+    stage (\'Prepare\')
+        bat \'\'\'if exist D:\\\\java_proj\\\\iunit (rd/s/q D:\\\\java_proj\\\\iunit) exit\'\'\' 
+ }'''
         }
-        stage(\'Test\') {
-            steps {
-                echo \'Testing..\'
-            }
-        }
-        stage(\'Deploy\') {
-            steps {
-                echo \'Deploying....\'
-            }
-        }
-    }
-}'''
       }
-    }
 
+    }
   }
-}
